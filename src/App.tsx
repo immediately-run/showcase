@@ -2,6 +2,10 @@
 // Global CSS is imported here (not in main.tsx) because immediately.run's
 // runtime never loads main.tsx; anything the rendered tree needs must be
 // reachable from App.tsx.
+//
+// This is a *section* app: it fills the showcase region and draws no site nav
+// or footer (the shell owns those). It is the curated storefront that links into
+// the full directory at /apps.
 import './index.css';
 import './App.css';
 import ShowcaseGrid from './components/ShowcaseGrid';
@@ -10,24 +14,18 @@ function App() {
   return (
     <main className="page">
       <header className="masthead">
-        <p className="eyebrow">Showcase</p>
-        <h1 className="title">
-          Real apps, <span className="grad-text">built to take apart.</span>
-        </h1>
-        <p className="lede">
-          Every tile is a public repo that runs on immediately.run. Open one to
-          use it, then tinker to see exactly how it works — and make it yours.
-        </p>
+        <span className="tag">/SHOWCASE</span>
+        <h1 className="title grad-text">Built with immediately.run.</h1>
+        <p className="lede">Real apps, running from their source. Open one, then take it apart.</p>
       </header>
 
       <ShowcaseGrid />
 
-      <footer className="footer">
-        <p>
-          Built with immediately.run. Each app loads from GitHub and runs in
-          your browser — no install, no build step.
-        </p>
-      </footer>
+      <div className="browse-all">
+        <a className="btn btn--browse" href="/apps">
+          Browse all apps →
+        </a>
+      </div>
     </main>
   );
 }
