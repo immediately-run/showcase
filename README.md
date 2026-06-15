@@ -1,5 +1,14 @@
 # immediately.run — Showcase
 
+> **Deprecated — this standalone app is no longer maintained.** The public
+> site's showcase now lives **inside the `landing-page` app** as the
+> `#/showcase` routed section, after the site was de-federated into a single
+> hash-routed app (one repo, one fork). See
+> [`immediately-run/landing-page`](https://github.com/immediately-run/landing-page)
+> and the rationale in the docs repo at
+> `design-briefs/landing-page/SITE_OVERVIEW.md` §5. This repo remains only as a
+> forkable example of a standalone showcase; the composed site does not load it.
+
 A standalone [immediately.run](https://immediately.run) app: the **Showcase**
 grid of real, forkable apps that run on the platform. Built as part of
 `docs/plans/ui-as-apps` **Phase 02** (standalone apps) — it has **no host
