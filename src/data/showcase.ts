@@ -1,76 +1,122 @@
-// Content for the immediately.run showcase — real, forkable apps that run on
-// the platform. Pure data (no React) so component files stay HMR-friendly.
+// The curated showcase — one typed record per app. Pure data (no React) so
+// component files stay HMR-friendly. The same record shape feeds the directory
+// and the machine surface in the full site; adding an app is adding an entry.
 //
-// Every app here is a public GitHub repo. The Open / Tinker links are
-// same-origin immediately.run routes, so they work wherever this app is served.
+// Every app is a public repo under the immediately-run org; Open/Fork routes are
+// built from `repo` (see ../lib/routes). Star counts are intentionally omitted —
+// we print only verified numbers, and these aren't verified yet.
+
+// Provenance is a trust signal, not decoration:
+//   'official'            → first-party, immediately-run org
+//   { github: 'owner' }   → community app from a verified GitHub identity
+export type Provenance = 'official' | { github: string };
 
 export interface ShowcaseApp {
   /** Display name. */
   name: string;
-  /** One-line description. Sentence case, ends on a period. */
-  blurb: string;
-  /** A single hashtag category, e.g. "#tools". */
-  tag: string;
-  /** GitHub `owner/repo`. */
+  /** Repo name under the immediately-run org; also the Open/Fork route key. */
   repo: string;
-  /** Git ref to open (a branch or a pinned commit). */
-  ref: string;
-  /** Entry file within the repo (varies: some apps keep App.tsx at the root). */
-  entry: string;
-  /** Featured tiles get extra visual weight + span. */
+  /** One line, sentence case, concrete — no hype. */
+  blurb: string;
+  /** Category slug used by the chip filter. */
+  category: string;
+  /** Human label shown on the tile corner. */
+  categoryLabel: string;
+  provenance: Provenance;
+  /** Grid footprint: `big` spans 4 columns, `sm` spans 2. */
+  span: 'big' | 'sm';
+  /** Saturated gradient treatment for the occasional featured tile. */
+  variant?: 'accent' | 'blue';
+  /** Adds a " · featured" suffix to the corner label. */
   featured?: boolean;
-  /** Optional accent treatment for variety in the grid. */
-  variant?: 'accent' | 'violet';
+  /** Entry file, if it isn't the conventional src/App.tsx. */
+  entry?: string;
 }
 
-const APP_BASE = 'github';
-
-/** `/present/...` route that runs the app full-screen. */
-export const openUrl = (a: ShowcaseApp): string =>
-  `/present/${APP_BASE}/${a.repo}/${a.ref}/files/${a.entry}`;
-
-/** `/edit/...` route that opens the app in tinker mode (pop the hood). */
-export const tinkerUrl = (a: ShowcaseApp): string =>
-  `/edit/${APP_BASE}/${a.repo}/${a.ref}/files/${a.entry}`;
+// Chip row order (the curated taxonomy). `all` is prepended by the UI.
+export const CATEGORIES: { slug: string; label: string }[] = [
+  { slug: 'creative', label: 'Creative' },
+  { slug: 'writing', label: 'Writing' },
+  { slug: 'tools', label: 'Tools' },
+  { slug: 'components', label: 'Components' },
+  { slug: 'agents', label: 'Agents' },
+  { slug: 'meta', label: 'Meta' },
+];
 
 export const SHOWCASE: ShowcaseApp[] = [
   {
-    name: 'Landing page',
-    blurb:
-      "The immediately.run landing page itself — yes, the homepage is an app you can fork.",
-    tag: '#meta',
-    repo: 'immediately-run/landing-page',
-    ref: 'main',
-    entry: 'src/App.tsx',
-    featured: true,
+    name: 'Whiteboard',
+    repo: 'whiteboard',
+    blurb: 'An infinite canvas for notes and sketches. Open the source while it runs.',
+    category: 'creative',
+    categoryLabel: 'Creative',
+    provenance: 'official',
+    span: 'big',
     variant: 'accent',
-  },
-  {
-    name: 'File Commander',
-    blurb:
-      'An orthodox file manager in the browser — dual-pane, keyboard-driven, function keys and all.',
-    tag: '#tools',
-    repo: 'immediately-run/file-commander',
-    ref: 'main',
-    entry: 'src/App.tsx',
-    variant: 'violet',
+    featured: true,
   },
   {
     name: 'Markdown Notebook',
-    blurb:
-      'A live Markdown notebook — write on the left, see it rendered on the right.',
-    tag: '#writing',
-    repo: 'immediately-run/markdown-notebook',
-    ref: 'main',
-    entry: 'src/App.tsx',
+    repo: 'markdown-notebook',
+    blurb: 'Write on the left, see it rendered on the right. Nothing leaves your browser.',
+    category: 'writing',
+    categoryLabel: 'Writing',
+    provenance: 'official',
+    span: 'sm',
   },
   {
-    name: 'Example Blog',
-    blurb:
-      'A clean, responsive blog template with posts and categories — ready to make your own.',
-    tag: '#content',
-    repo: 'immediately-run/example-blog',
-    ref: 'main',
-    entry: 'App.tsx',
+    name: 'File Commander',
+    repo: 'file-commander',
+    blurb: 'A dual-pane, keyboard-driven file manager over the folders you mount.',
+    category: 'tools',
+    categoryLabel: 'Tools',
+    provenance: 'official',
+    span: 'sm',
+    variant: 'blue',
+  },
+  {
+    name: 'File Explorer',
+    repo: 'file-explorer',
+    blurb: 'Browse a mounted folder as a tree. Sees only what you grant.',
+    category: 'tools',
+    categoryLabel: 'Tools',
+    provenance: 'official',
+    span: 'sm',
+  },
+  {
+    name: 'Spaces Panel',
+    repo: 'spaces-panel',
+    blurb: 'Browse and share your spaces. Forkable, like everything else here.',
+    category: 'tools',
+    categoryLabel: 'Tools',
+    provenance: 'official',
+    span: 'sm',
+  },
+  {
+    name: 'Theme Toggle',
+    repo: 'theme-toggle',
+    blurb: 'The light/dark switch, as a tiny standalone app you can drop in anywhere.',
+    category: 'components',
+    categoryLabel: 'Components',
+    provenance: 'official',
+    span: 'sm',
+  },
+  {
+    name: 'Agent Demo',
+    repo: 'agent-demo',
+    blurb: 'A coding agent editing a running app — the change-by-asking loop, live.',
+    category: 'agents',
+    categoryLabel: 'Agents',
+    provenance: 'official',
+    span: 'sm',
+  },
+  {
+    name: 'Landing page',
+    repo: 'landing-page',
+    blurb: 'The immediately.run homepage itself — yes, the front page is an app you can fork.',
+    category: 'meta',
+    categoryLabel: 'Meta',
+    provenance: 'official',
+    span: 'sm',
   },
 ];

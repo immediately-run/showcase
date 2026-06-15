@@ -1,36 +1,33 @@
-// A single showcase tile: app name, blurb, and the two things that matter —
-// Open (run it) and Tinker (pop the hood). One component per file, default
-// export, per the immediately.run authoring rules.
-import { openUrl, tinkerUrl, type ShowcaseApp } from '../data/showcase';
+// A single showcase tile: stripe/preview, corner category, name, provenance
+// chip, blurb, and the Open/Fork pair. One component per file, default export.
+import type { ShowcaseApp } from '../data/showcase';
+import { presentUrl, editUrl } from '../lib/routes';
+import ProvenanceChip from './ProvenanceChip';
 
 function Card({ app }: { app: ShowcaseApp }) {
-  const classes = [
-    'card',
-    app.featured ? 'card--featured' : '',
-    app.variant ? `card--${app.variant}` : '',
-  ]
+  const saturated = Boolean(app.variant);
+  const classes = ['tile', `tile--${app.span}`, app.variant ? `tile--${app.variant}` : '']
     .filter(Boolean)
     .join(' ');
+  const cornerLabel = app.featured ? `${app.categoryLabel} · featured` : app.categoryLabel;
 
   return (
     <article className={classes}>
-      <div className="card__top">
-        <span className="card__tag">{app.tag}</span>
-        {app.featured && <span className="card__badge">featured</span>}
+      <div className="tile__pic">
+        <span className="tile__cat">{cornerLabel}</span>
       </div>
-
-      <h3 className="card__name">{app.name}</h3>
-      <p className="card__blurb">{app.blurb}</p>
-
-      <div className="card__repo">{app.repo}</div>
-
-      <div className="card__actions">
-        <a className="btn btn--primary" href={openUrl(app)}>
-          Open <span aria-hidden="true">→</span>
-        </a>
-        <a className="btn btn--ghost" href={tinkerUrl(app)}>
-          Tinker
-        </a>
+      <div className="tile__foot">
+        <h3 className="tile__name">{app.name}</h3>
+        <ProvenanceChip provenance={app.provenance} onSaturated={saturated} />
+        <p className="tile__blurb">{app.blurb}</p>
+        <div className="tile__actions">
+          <a className="btn btn--open" href={presentUrl(app.repo, app.entry)}>
+            Open
+          </a>
+          <a className="btn btn--fork" href={editUrl(app.repo, app.entry)}>
+            Fork
+          </a>
+        </div>
       </div>
     </article>
   );

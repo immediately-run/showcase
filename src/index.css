@@ -29,6 +29,7 @@
 
   /* — Signature gradient + glow — */
   --grad: linear-gradient(96deg, #f6f1fb 0%, #f49ad4 46%, #b285f2 100%);
+  --grad-btn: linear-gradient(135deg, oklch(0.74 0.17 350), oklch(0.62 0.18 295));
   --glow: 0 0 0 1px rgba(150,110,240,.5), 0 0 34px rgba(150,110,240,.32);
 
   /* — Solid accent fallbacks (for text/icons that can't take a gradient) — */
@@ -74,6 +75,7 @@ html[data-theme="light"] {
   --accent-2:  oklch(0.52 0.21 295);
   --accent-3:  oklch(0.50 0.20 350);
   --grad: linear-gradient(96deg, #c43d96 0%, #9a45e6 100%);
+  --grad-btn: linear-gradient(135deg, #c43d96, #9a45e6);
   --glow: 0 0 0 1px rgba(150,90,235,.4), 0 8px 26px rgba(150,90,235,.20);
   --shadow-modal: 0 24px 70px rgba(40,24,70,.18);
   --shadow-pop:   0 12px 34px rgba(40,24,70,.14);
